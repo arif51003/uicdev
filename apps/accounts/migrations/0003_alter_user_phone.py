@@ -5,15 +5,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('accounts', '0002_initial'),
+        ("accounts", "0002_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='user',
-            name='phone',
-            field=models.CharField(max_length=20, unique=True, validators=[django.core.validators.RegexValidator('^\\+?1?\\d{9,15}$')], verbose_name='phone'),
+            model_name="user",
+            name="phone",
+            field=models.CharField(
+                max_length=20,
+                unique=True,
+                validators=[django.core.validators.RegexValidator("^\\+?1?\\d{9,15}$")],
+                verbose_name="phone",
+            ),
         ),
     ]
