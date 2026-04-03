@@ -1,12 +1,19 @@
+from rest_framework.authentication import BasicAuthentication,SessionAuthentication
+from rest_framework.exceptions import ValidationError
+from rest_framework.permissions import AllowAny,IsAuthenticated
+from rest_framework.response import Response
+
+
 from rest_framework.generics import (
     CreateAPIView,
     ListAPIView,
     DestroyAPIView,
     RetrieveAPIView,
-    UpdateAPIView
+    UpdateAPIView,
+    GenericAPIView
 )
-from apps.accounts.models import Education,Author
-from apps.accounts.apis.serializers import EducationSerializer,AuthorSerializer
+from apps.accounts.models import Education
+from apps.accounts.serializers import EducationSerializer
 
 class EducationCreateAPIView(CreateAPIView):
     queryset = Education.objects.all()
@@ -32,24 +39,3 @@ class EducationDeleteAPIView(DestroyAPIView):
         instance.is_active=False
         instance.save()
         
-        
-class AuthorListAPIView(ListAPIView):
-    queryset = Author.objects.all().order_by("first_name")
-    serializer_class = AuthorSerializer
-    
-class AuthorRetriveAPIView(RetrieveAPIView):
-    queryset = Author.objects.all()
-    serializer_class = AuthorSerializer
-    
-class AuthorUpdateAPIView(UpdateAPIView):
-    queryset = Author.objects.all()
-    serializer_class = AuthorSerializer
-    
-class AuthorDeleteAPIView(DestroyAPIView):
-    queryset = Author.objects.all()
-    serializer_class = AuthorSerializer
-    
-    
-class AuthorCreateAPIView(CreateAPIView):
-    queryset = Author.objects.all()
-    serializer_class = AuthorSerializer
