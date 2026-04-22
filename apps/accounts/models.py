@@ -48,6 +48,7 @@ class User(AbstractBaseUser, PermissionsMixin, BaseModel):
     is_staff = models.BooleanField(_("is staff"), default=False)
     is_active = models.BooleanField(_("is active"), default=True)
     is_deleted = models.BooleanField(_("is deleted"), default=False)
+    stars_balance = models.PositiveIntegerField(_("stars balance"), default=0)
 
     objects = UserManager()
 
@@ -64,6 +65,24 @@ class User(AbstractBaseUser, PermissionsMixin, BaseModel):
     @property
     def full_name(self):
         return f"{self.first_name} {self.last_name}".strip()
+
+
+class Wallet(BaseModel):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="wallet",
+        verbose_name=_("user"),
+    )
+    balance = models.DecimalField(_("balance"), max_digits=10, decimal_places=2)
+    is_deleted = models.BooleanField(_("is deleted"), default=False)
+
+    class Meta:
+        verbose_name = _("wallet")
+        verbose_name_plural = _("wallets")
+
+    def __str__(self):
+        return f"{self.user} - {self.balance}"
 
 
 class Education(BaseModel):

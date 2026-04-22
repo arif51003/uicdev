@@ -5,17 +5,17 @@ from apps.common.models import Country, Media, Region
 
 @admin.register(Media)
 class MediaAdmin(admin.ModelAdmin):
-    list_display = ["id", "file_url", "created_at"]
-    search_fields = ["file_url"]
+    list_display = ["id", "file", "created_at"]
+    search_fields = ["file"]
 
 
 @admin.register(Country)
 class CountryAdmin(admin.ModelAdmin):
-    list_display = ["name"]
+    list_display = ["id", "name"]
     search_fields = ["name"]
 
 
 @admin.register(Region)
 class RegionAdmin(admin.ModelAdmin):
-    list_display = ["name"]
+    list_display = ["id", "name"]
     search_fields = ["name"]

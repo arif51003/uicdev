@@ -1,18 +1,46 @@
-from .author_crud import AuthorCreateAPIView,AuthorDeleteAPIView,AuthorListAPIView,AuthorRetriveAPIView,AuthorUpdateAPIView
-from .education_crud import EducationCreateAPIView,EducationDeleteAPIView,EducationListAPIView,EducationRetriveAPIView,EducationUpdateAPIView
-from .user import UserProfileAPIView,UserRegisterAPIView
-
-__all__=[
+from .auth import UserDisableAPIView, UserProfileAPIView, UserRegisterAPIView, UserRegisterConfirmAPIView
+from .author_crud import (
     AuthorCreateAPIView,
     AuthorDeleteAPIView,
+    AuthorDetailAPIView,
     AuthorListAPIView,
-    AuthorRetriveAPIView,
     AuthorUpdateAPIView,
+)
+from .education_crud import (
     EducationCreateAPIView,
     EducationDeleteAPIView,
+    EducationDetailAPIView,
     EducationListAPIView,
-    EducationRetriveAPIView,
     EducationUpdateAPIView,
-    UserProfileAPIView,
-    UserRegisterAPIView
+)
+from .profile_editing import (
+    UserCertificateDetailAPIView,
+    UserCertificateListCreateAPIView,
+    UserEducationDetailAPIView,
+    UserEducationListCreateAPIView,
+    UserExperienceDetailAPIView,
+    UserExperienceListCreateAPIView,
+)
+
+__all__ = [
+    "UserRegisterAPIView",
+    "UserRegisterConfirmAPIView",
+    "UserProfileAPIView",
+    "UserDisableAPIView",
+    "AuthorCreateAPIView",
+    "AuthorDeleteAPIView",
+    "AuthorDetailAPIView",
+    "AuthorListAPIView",
+    "AuthorUpdateAPIView",
+    "EducationCreateAPIView",
+    "EducationDeleteAPIView",
+    "EducationDetailAPIView",
+    "EducationListAPIView",
+    "EducationUpdateAPIView",
+    "UserEducationListCreateAPIView",
+    "UserEducationDetailAPIView",
+    "UserExperienceListCreateAPIView",
+    "UserExperienceDetailAPIView",
+    "UserCertificateListCreateAPIView",
+    "UserCertificateDetailAPIView",
 ]

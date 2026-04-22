@@ -3,16 +3,14 @@ from django.urls import path
 from apps.common.views import (
     CountryListCreateAPIView,
     CountryRetrieveUpdateDestroyAPIView,
-    MediaCreateAPIView,
-    MediaDeleteAPIView,
-    MediaListAPIView,
-    MediaRetrieveAPIView,
-    MediaUpdateAPIView,
+    FileUploadAPIView,
+    ImportDataAPIView,
     RegionCreateAPIView,
     RegionDeleteAPIView,
     RegionListAPIView,
-    RegionRetrieveAPIView,
+    RegionRetriveAPIView,
     RegionUpdateAPIView,
+    TestTaskAPIView,
 )
 
 urlpatterns = [
@@ -26,10 +24,8 @@ urlpatterns = [
     path("region/create/", RegionCreateAPIView.as_view(), name="region-create"),
     path("region/delete/<int:pk>", RegionDeleteAPIView.as_view(), name="region-delete"),
     path("region/update/<int:pk>", RegionUpdateAPIView.as_view(), name="region-update"),
-    path("region/<int:pk>", RegionRetrieveAPIView.as_view(), name="region-single"),
-    path("media/", MediaListAPIView.as_view(), name="media-list"),
-    path("media/create/", MediaCreateAPIView.as_view(), name="media-create"),
-    path("media/<int:pk>/", MediaRetrieveAPIView.as_view(), name="media-detail"),
-    path("media/update/<int:pk>/", MediaUpdateAPIView.as_view(), name="media-update"),
-    path("media/delete/<int:pk>/", MediaDeleteAPIView.as_view(), name="media-delete"),
+    path("region/<int:pk>", RegionRetriveAPIView.as_view(), name="region-single"),
+    path("file-upload/", FileUploadAPIView.as_view(), name="file-upload"),
+    path("testtask/", TestTaskAPIView.as_view(), name="testtask"),
+    path("import-country-regions/", ImportDataAPIView.as_view(), name="import-country-regions"),
 ]

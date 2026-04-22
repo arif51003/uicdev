@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 
+from django.utils.translation import gettext_lazy as _
 from dotenv import load_dotenv
 
 from .jazzmin_conf import JAZZMIN_SETTINGS  # noqa
@@ -40,12 +41,17 @@ LOCAL_APPS = [
     "apps.interactions",
     "apps.notifications",
     "apps.common",
+    "apps.payments",
 ]
 
 EXTERNAL_APPS = [
     "rest_framework",
     "jazzmin",
     "drf_spectacular",
+    "rest_framework_simplejwt",
+    "rosetta",
+    "modeltranslation",
+    "django_celery_beat",
 ]
 
 AUTH_USER_MODEL = "accounts.User"
@@ -58,6 +64,7 @@ MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
@@ -98,6 +105,14 @@ DATABASES = {
 }
 
 
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://localhost:6379/2",
+    }
+}
+
+
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
 
@@ -125,8 +140,17 @@ LANGUAGE_CODE = "en-us"
 TIME_ZONE = "UTC"
 
 USE_I18N = True
-
 USE_TZ = True
+
+LANGUAGES = [
+    ("uz", _("Uzbek")),
+    ("ru", _("Russian")),
+    ("en", _("English")),
+]
+
+LOCALE_PATHS = (BASE_DIR / "locale",)
+
+MODELTRANSLATION_DEFAULT_LANGUAGE = "en"
 
 
 # Static files (CSS, JavaScript, Images)
@@ -154,7 +178,30 @@ SPECTACULAR_SETTINGS = {
     "VERSION": "0.1.0",
     "SERVE_INCLUDE_SCHEMA": False,
     # OTHER SETTINGS
+    "COMPONENT_SPLIT_REQUEST": True,
 }
 
-ONEID_USERNAME = "948029000"
-ONEID_PASSWORD = "2315"
+
+ONEID_USERNAME = "eshmatuser"
+ONEID_PASSWORD = "kefy348ryi4fg438i"
+
+
+# Celery Configuration Options
+CELERY_TIMEZONE = "UTC"
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+
+CELERY_BROKER_URL = "redis://localhost:6379/10"
+CELERY_RESULT_BACKEND = "redis://localhost:6379/9"
+
+
+# SMS settings
+DEVSMS_TOKEN = os.getenv("DEVSMS_TOKEN")
+
+# FakePay / Paylov-clone merchant integration settings
+FAKEPAY_BASE_URL = os.getenv("FAKEPAY_BASE_URL", "http://localhost:8001")
+FAKEPAY_MERCHANT_ID = os.getenv("FAKEPAY_MERCHANT_ID", "571c06fb-6c61-4ef7-8567-5511abaf12b5")
+FAKEPAY_CALLBACK_AUTH_USERNAME = os.getenv("FAKEPAY_CALLBACK_AUTH_USERNAME", "uic_callback")
+FAKEPAY_CALLBACK_AUTH_PASSWORD = os.getenv("FAKEPAY_CALLBACK_AUTH_PASSWORD", "uic_callback_pass")
+FAKEPAY_DEFAULT_RETURN_URL = os.getenv("FAKEPAY_DEFAULT_RETURN_URL", "http://localhost:3000/payment-result")
+LESSON_COMPLETION_THRESHOLD_PERCENT = int(os.getenv("LESSON_COMPLETION_THRESHOLD_PERCENT", 80))

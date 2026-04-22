@@ -1,18 +1,25 @@
-from .country_crud import CountryListCreateAPIView, CountryRetrieveUpdateDestroyAPIView
-from .media_crud import MediaCreateAPIView, MediaDeleteAPIView, MediaListAPIView, MediaRetrieveAPIView, MediaUpdateAPIView
-from .region_crud import RegionCreateAPIView, RegionDeleteAPIView, RegionListAPIView, RegionRetrieveAPIView, RegionUpdateAPIView
-
-__all__ = [
+from .country_region import (
     CountryListCreateAPIView,
     CountryRetrieveUpdateDestroyAPIView,
-    MediaCreateAPIView,
-    MediaDeleteAPIView,
-    MediaListAPIView,
-    MediaRetrieveAPIView,
-    MediaUpdateAPIView,
+    ImportDataAPIView,
     RegionCreateAPIView,
     RegionDeleteAPIView,
     RegionListAPIView,
-    RegionRetrieveAPIView,
-    RegionUpdateAPIView
+    RegionRetriveAPIView,
+    RegionUpdateAPIView,
+)
+from .file_upload import FileUploadAPIView
+from .test_task import TestTaskAPIView
+
+__all__ = [
+    "CountryListCreateAPIView",
+    "CountryRetrieveUpdateDestroyAPIView",
+    "RegionCreateAPIView",
+    "RegionDeleteAPIView",
+    "RegionListAPIView",
+    "RegionRetriveAPIView",
+    "RegionUpdateAPIView",
+    "FileUploadAPIView",
+    "TestTaskAPIView",
+    "ImportDataAPIView",
 ]

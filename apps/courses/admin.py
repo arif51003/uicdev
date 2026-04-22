@@ -1,11 +1,7 @@
 from django.contrib import admin
+from modeltranslation.admin import TranslationAdmin
 
-from apps.courses.models import Category, Course, CourseTag, Lesson, Module, Tag
-
-
-class CourseTagInline(admin.TabularInline):
-    model = CourseTag
-    extra = 1
+from apps.courses.models import Category, Course, Lesson, Module, Tag
 
 
 class ModuleInline(admin.TabularInline):
@@ -21,7 +17,7 @@ class LessonInline(admin.TabularInline):
 
 
 @admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
+class CategoryAdmin(TranslationAdmin, admin.ModelAdmin):
     list_display = ["name"]
     search_fields = ["name"]
 
@@ -38,7 +34,7 @@ class CourseAdmin(admin.ModelAdmin):
     list_filter = ["is_active", "is_published", "category"]
     search_fields = ["name", "author__first_name", "author__last_name"]
     raw_id_fields = ["author", "banner"]
-    inlines = [CourseTagInline, ModuleInline]
+    inlines = [ModuleInline]
 
 
 @admin.register(Module)

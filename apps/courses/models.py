@@ -2,6 +2,8 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from apps.common.models import BaseModel
+from apps.courses.choices import LessonTypeChoices
+from apps.payments.choices import CurrencyEnum
 
 
 class Category(BaseModel):
@@ -51,6 +53,14 @@ class Course(BaseModel):
         related_name="courses",
         verbose_name=_("category"),
     )
+    tags = models.ManyToManyField(
+        Tag,
+        blank=True,
+        related_name="courses",
+        verbose_name=_("tags"),
+    )
+    price = models.DecimalField(_("price"), max_digits=10, decimal_places=2, default=0)
+    currency = models.CharField(_("currency"), max_length=20, choices=CurrencyEnum.choices, default=CurrencyEnum.UZS)
     reward_stars = models.PositiveIntegerField(_("reward stars"), default=0)
     is_active = models.BooleanField(_("is active"), default=True)
     is_published = models.BooleanField(_("is published"), default=False)
@@ -61,29 +71,6 @@ class Course(BaseModel):
 
     def __str__(self):
         return self.name
-
-
-class CourseTag(BaseModel):
-    course = models.ForeignKey(
-        Course,
-        on_delete=models.CASCADE,
-        related_name="course_tags",
-        verbose_name=_("course"),
-    )
-    tag = models.ForeignKey(
-        Tag,
-        on_delete=models.CASCADE,
-        related_name="course_tags",
-        verbose_name=_("tag"),
-    )
-
-    class Meta:
-        verbose_name = _("course tag")
-        verbose_name_plural = _("course tags")
-        unique_together = ("course", "tag")
-
-    def __str__(self):
-        return f"{self.course} - {self.tag}"
 
 
 class Module(BaseModel):
@@ -120,10 +107,11 @@ class Lesson(BaseModel):
         related_name="lesson_videos",
         verbose_name=_("video"),
     )
+    online_url = models.URLField(_("Online URL (YouTube, Vimeo, etc.)"), max_length=500, blank=True)
     name = models.CharField(_("name"), max_length=255)
     description = models.TextField(_("description"), blank=True)
     current_rating = models.FloatField(_("current rating"), default=0)
-    type = models.CharField(_("type"), max_length=50)
+    type = models.CharField(_("type"), max_length=50, choices=LessonTypeChoices.choices)
     max_attempts_count = models.PositiveIntegerField(_("max attempts count"), default=0)
     attempt_interval = models.PositiveIntegerField(_("attempt interval"), default=0)
     lesson_order = models.PositiveIntegerField(_("lesson order"), default=0)

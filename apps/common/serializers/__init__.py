@@ -1,9 +1,8 @@
-from .country import CountrySerializer
-from .media import MediaSerializer
-from .region import RegionSerializer
+from .country_region import CountrySerializer, RegionSerializer
+from .file_upload import FileUploadSerializer
 
 __all__ = [
-    CountrySerializer,
-    MediaSerializer,
-    RegionSerializer
+    "CountrySerializer",
+    "RegionSerializer",
+    "FileUploadSerializer",
 ]
